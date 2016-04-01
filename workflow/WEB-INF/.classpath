@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="classes"/>
+	<classpathentry kind="src" path="work"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="D:/resin-2.1.16/lib/jmx.jar"/>
+	<classpathentry kind="lib" path="D:/resin-2.1.16/lib/jsdk23.jar"/>
+	<classpathentry kind="lib" path="D:/resin-2.1.16/webapps/workflow/WEB-INF/lib/pop3.jar"/>
+	<classpathentry kind="lib" path="D:/resin-2.1.16/webapps/workflow/WEB-INF/lib/imap.jar"/>
+	<classpathentry kind="lib" path="D:/resin-2.1.16/webapps/workflow/WEB-INF/lib/mailapi.jar"/>
+	<classpathentry kind="lib" path="D:/resin-2.1.16/webapps/workflow/WEB-INF/lib/activation.jar"/>
+	<classpathentry kind="lib" path="D:/resin-2.1.16/webapps/workflow/WEB-INF/lib/smtp.jar"/>
+	<classpathentry kind="lib" path="D:/resin-2.1.16/lib/resin.jar"/>
+	<classpathentry kind="output" path="work"/>
+</classpath>

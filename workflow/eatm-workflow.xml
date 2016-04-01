@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='Big5'?>
+<workflow name='' 
+	start-activity='T1' 
+	uuid='adbc-0909-987880' 
+	default-timeout='100'
+	>
+
+	<activity name='T1' label='input  your card' >
+		<page>
+			<input type='hidden' name='dd' value='eatm/icc_reader_select.jsp'/>
+			
+		</page>	
+		<event_mapping>
+			<action event='1' label= 'insert the card'  goto='T2'/>
+			<action event='2' label= 'insert the card'  goto='E2'/>
+		</event_mapping>
+	</activity>
+
+	<activity name='E2' label='read card ERROR' >
+		<page>
+			<input type='hidden' name='dd' value='eatm/icc_reader_select.jsp'/>
+		</page>	
+
+		<event_mapping>
+			<action event='1' label= 'input my password'  goto='T1'/>
+		</event_mapping>
+	</activity>
+	<activity name='T2' label='input  input you password' >
+		<page>
+			<input type='password' name='atm.pinpad.password' value=''/>
+		</page>	
+		<event_mapping>
+			<action event='1' label= 'input my password'  goto='T3'/>
+		</event_mapping>
+	</activity>
+
+	<activity name='functin.selection' label='select a function' >
+
+		<event_mapping>
+			<action event='A9' label= 'withdraw'  goto='T4'/>
+			<action event='A10' label= 'withdraw 1000'  
+				goto='T5' set-variant='$biztype=withdraw;$atm.boh=1000'/>
+			<action event='A11' label= 'deposit'  goto='T1'/>
+			<action event='A12' label= 'query'  goto='T1'/>
+			<action event='A3' label= 'change password'  goto='P1'/>
+			<action event='A4' label= 'cancel'  goto='T1'/>
+			
+		</event_mapping>
+	</activity>
+	
+	<activity name='T3' label='select ' set-variant='$biztype=withdraw'>
+
+		<event_mapping>
+			<action event='A9' label= '100'  goto='T5'/>
+			<action event='A10' label= '1000'  goto='T1'/>
+			<action event='A11' label= '10000'  goto='T1'/>
+			<action event='A12' label= 'cancel'  goto='T1'/>
+			
+		</event_mapping>
+	</activity>
+	
+	<activity name='T5' label='select'  role='host'>
+
+		<event_mapping>
+			<action event='1' label= '100'  goto='T6'/>
+			
+		</event_mapping>
+	</activity>
+	
+	<activity name='T6' label='please take out your cash'>
+		<page>
+			<input type='hidden' name='atm.boh' value='100'/>
+		</page>	
+		<event_mapping>
+			<action event='A9' label= 'continue'  goto='T3'/>
+			<action event='A10' label= 'eject card'  goto='T7'/>
+		</event_mapping>
+	</activity>
+	
+	<activity name='T7' label='please take your card, thanks for use the banking service'>
+		<page>
+			<input type='hidden' name='atm.cardreader.1' value='@control: eject'/>
+		</page>	
+		<event_mapping>
+			<action event='1' label= 'home'  goto='T1'/>
+		</event_mapping>
+	</activity>
+	
+	<activity name='P1' label='please take your card, thanks for use the banking service'>
+		<page>
+			<input type='password' name='atm.pinpad.password.1' value=''/>
+			<input type='password' name='atm.pinpad.password.2' value=''/>
+			
+		</page>	
+		<event_mapping>
+			<action event='1' label= 'home'  goto='T1'/>
+		</event_mapping>
+	</activity>
+	
+	
+</workflow>
+<!--
+
+	
+
+-->

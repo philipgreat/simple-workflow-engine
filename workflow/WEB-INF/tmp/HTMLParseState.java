@@ -1,0 +1,22 @@
+package com.terapico.util.mail;
+
+public enum HTMLParseState {
+	INIT,	
+	START_DOCUMENT,
+	TAG_START,
+	TAG_NAME_START,
+	TAG_NAME_IN,
+	TAG_NAME_END,
+	NAME_START,
+	NAME_IN,
+	NAME_END,
+	LOOK_FOR_EQUAL,
+	VALUE_START,
+	VALUE_IN,
+	VALUE_END,
+	NEXT_PROPERTY,
+	TAG_END,
+	NEXT_TAG,	
+	END_DOCUMENT,
+	
+}

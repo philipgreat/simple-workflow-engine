@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='Big5'?>
+<workflow name='' 
+	start-activity='T1' 
+	uuid='adbc-0909-987880' 
+	default-timeout='100'
+	>
+	
+	<activity name='T1' label='please input you username' >
+		<page>
+			<input label='yourname' type='text' name='mail.username' value='suddy@localhost'/>
+		</page>	
+		<event_mapping>
+			<action event='1' label= 'continue-&gt;'  goto='T2'/>			
+		</event_mapping>
+	</activity>
+	
+	<activity name='T2' label='send a mail' >
+		<page>
+			<input label='to' type='text' name='mail.sender.to' value='zhangxl@channel.com'/>
+			<input label='cc' type='text' name='mail.sender.cc' value='zhangxl@channel.com'/>
+			<input label='subject' type='text' name='mail.sender.subject' value='good yes'/>
+			<input label='body' type='text' name='mail.sender.body' 
+			value='http://localhost/'/>
+		</page>	
+		<event_mapping>
+			<action event='1' label= 'send'  goto='T3'/>
+			
+		</event_mapping>
+	</activity>
+	
+	<activity name='T3' label='send a mail' role='mailer'>
+		
+		<event_mapping>
+			<action event='ok' label= 'send'  goto='T4'/>
+			<action event='no' label= 'send'  goto='T5'/>
+			<action event='urlerror' label= 'send'  goto='T6'/>
+		</event_mapping>
+	</activity>
+
+	<activity name='T4' label='sent a mail'>
+		
+		<event_mapping>
+			<action event='2' label= 'continue'  goto='T2'/>
+			<action event='1' label= 'home'  goto='T1'/>
+		</event_mapping>
+	</activity>
+	<activity name='T5' label='fail send a mail'>
+		
+		<event_mapping>
+			<action event='1' label= 'again'  goto='T1'/>
+			
+		</event_mapping>
+	</activity>
+		<activity name='T6' label='url error'>
+		
+		<event_mapping>
+			<action event='1' label= 'again'  goto='T1'/>
+			
+		</event_mapping>
+	</activity>
+</workflow>
+<!--
+
+	
+
+-->

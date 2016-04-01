@@ -1,0 +1,3 @@
+d:
+cd D:\resin-2.1.16\webapps\workflow\WEB-INF\classes
+javac -classpath ../lib/activation.jar;../lib/mailapi.jar;%CLASSPATH% com\terapico\util\mail\*.java -Xlint:unchecked

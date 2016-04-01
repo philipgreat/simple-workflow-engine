@@ -1,0 +1,172 @@
+<?xml version='1_0' encoding='GBK'?>
+<workflow name='' 
+	start-activity='E2' 
+	uuid='adbc-0909-987880' 
+	default-timeout='100'
+	>
+
+	<activity name='T1' label='input  your card' page='yes.jsp'>
+		<page>
+			<input type='hidden' label='card number'  name='atm_cardreader_1' value='@control: pull'/>
+			<input type='text' label='card number' name='atm_cardreader' value=''/>
+		</page>	
+		<event_mapping>
+			<action event='1' label= 'insert the card'  goto='T2'/>
+			<action event='2' label= 'send a mail'  goto='E2'/>
+		</event_mapping>
+		
+	</activity>
+
+	<activity name='E2' label='send a email' >
+		<page>
+			<input type='text' label='from'  name='mail_username' value='zhangxl@channel.com'/>
+			<input type='text' label='to'  name='mail_sender_to' value='zhangxl@channel.com'/>
+			<input type='text' label='subject'  name='mail_sender_subject' value='无线应用邮件'/>
+			<input type='text' label='content'  name='mail_sender_body' value='使用中文'/>
+			
+		</page>
+		<event_mapping>
+			<action event='1' label= 'send'  goto='M1'/>
+		</event_mapping>
+	</activity>
+	
+	<activity name='M1' label='input you password' role='mailer'>
+		<event_mapping>
+			<action event='urlerror' label= 'urlerror'  goto='M2' set-variant='$msg=内容错误'/>
+			<action event='desterror' label= 'desterror'  goto='M2' set-variant='$msg=目的地址'/>
+			<action event='msgerr' label= 'msgerr'  goto='M2' set-variant='$msg=消息错误'/>
+			<action event='ok' label= 'ok'  goto='M2' set-variant='$msg=发送成功'/>
+		</event_mapping>
+	</activity>
+	<activity name='M2' label='input  input you password'>
+		<page>
+			<input type='text' label='msg' name='msg' value='$msg'/>
+		</page>
+		<event_mapping>
+			<action event='again' label= 'again'  goto='E2'/>
+			<action event='ok' label= 'return'  goto='T1'/>			
+		</event_mapping>
+	</activity>
+	
+	
+	<activity name='T2' label='input  input you password' >
+		<page>
+			<input type='password' label='password' name='atm_pinpad_password' value=''/>
+		</page>	
+		<event_mapping>
+			<action event='1' label= 'input my password'  goto='T3'/>
+		</event_mapping>
+	</activity>
+
+	<activity name='T3' label='select a function' >
+
+		<event_mapping>
+			<action event='A9' label= 'withdraw'  goto='T4'/>
+			<action event='A10' label= 'withdraw 1000'  
+				goto='T5' set-variant='$biztype=withdraw;$atm_pinpad_count=1000'/>
+			<action event='A11' label= 'deposit'  goto='T1'/>
+			<action event='A12' label= 'query'  goto='T1'/>
+			<action event='A3' label= 'change password'  goto='P1'/>
+			<action event='A21' label= 'cancel'  goto='T1'/>
+			
+		</event_mapping>
+	</activity>
+	
+	<activity name='T4' label='select ' set-variant='$biztype=withdraw'>
+
+		<event_mapping>
+			<action event='A9' label= '100'  goto='T5' set-variant='$atm_pinpad_count=100'/>
+			<action event='A10' label= '1000'  goto='T5' set-variant='$atm_pinpad_count=1000'/>
+			<action event='A11' label= '10000'  goto='T5' set-variant='$atm_pinpad_count=10000'/>
+			<action event='A3' label= 'other'  goto='W4'/>
+			<action event='A21' label= 'cancel'  goto='T1'/>
+		</event_mapping>
+	</activity>
+	
+	<activity name='W4' label='please input the count ' set-variant='$biztype=withdraw'>
+		<page>
+			<input type='text' label='count' name='atm_pinpad_count' value=''/>
+		</page>	
+		<event_mapping>
+			<action event='1' label= 'OK'  goto='T5'/>
+
+		</event_mapping>
+	</activity>
+	
+	<activity name='T5' label='select'  role='host'>
+
+		<event_mapping>
+			<action event='1' label= '100'  goto='T6'/>
+			
+		</event_mapping>
+	</activity>
+	
+	<activity name='T6' label='please take out your cash'>
+		<page>
+			<input type='hidden' label='amount' name='atm_boh' value='$atm_pinpad_count'/>
+			<input type='TEXT' label='msg' name='atm_jnl' value='你得到了 +#atm_pinpad_count+ 元'/>
+			
+		</page>	
+		<event_mapping>
+			<action event='A9' label= 'continue'  goto='T3'/>
+			<action event='A10' label= 'eject card'  goto='T7'/>
+		</event_mapping>
+	</activity>
+	
+	<activity name='T7' label='please take your card, thanks for use the banking service'>
+		<page>
+			<input type='hidden' name='atm_cardreader_1' value='@control: eject'/>
+		</page>	
+		<event_mapping>
+			<action event='1' label= 'home'  goto='T1'/>
+		</event_mapping>
+	</activity>
+	
+	<activity name='P1' label='input your password two times'>
+		<page>
+			<input type='password' label='password1' name='atm_pinpad_password_1' value=''/>
+			<input type='password' label='password2' name='atm_pinpad_password_2' value=''/>
+			
+		</page>	
+		<event_mapping>
+			<action event='1' label= 'home'  goto='P2'/>
+		</event_mapping>
+	</activity>
+	
+	<activity name='P2' label='check pass' role='passwordchecker'>
+		<event_mapping>
+			<action event='ok' label= 'home'  goto='P4' />
+			<action event='no' label= 'no'  goto='P3'
+				set-variant='$error=密码不同'
+			/>
+			<action event='blankerror' label= 'blankerror'  goto='P3'
+				set-variant='$error=不能够为空'
+			/>
+			<action event='nullerror' label= 'nullerror'  goto='P3'
+				set-variant='$error=不能够NULL'
+			/>
+		
+			
+		</event_mapping>
+	</activity>
+	<activity name='P3' label='error' >
+		<input type='text' name='msg' value='$error'/>
+		<event_mapping>
+			<action event='A9' label= 'return'  goto='T1'/>
+			<action event='A10' label= 'retry'  goto='P1'/>
+		</event_mapping>
+	</activity>
+	
+	<activity name='P4' label='ok! you changed your password successfully' >
+		<event_mapping>
+			<action event='A3' label= 'return'  goto='T3'/>
+		</event_mapping>
+	</activity>
+	
+	
+</workflow>
+<!--
+
+	
+
+-->

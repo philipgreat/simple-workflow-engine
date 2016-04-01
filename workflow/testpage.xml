@@ -1,0 +1,5 @@
+<page>
+	<makecall src='12312312' dest='123123'/>
+	<getdtmf name='cc' value='sdf' key='' rule='sadf' tips='/voicecc'/>
+		
+</page>

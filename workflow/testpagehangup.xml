@@ -1,0 +1,5 @@
+<page>
+	
+	<getdtmf name='cÎÒµÄc' value='sdf' key='' rule='sadf' tips='/voicecc'/>
+	<hangup/>	
+</page>
